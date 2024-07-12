@@ -23,7 +23,7 @@ def seedword(machine):
     add as follows:
 
     machine secure.login.gov
-        username me@my.email.addr
+        login me@my.email.addr
         account MYS33DW0RD
         password MyP4ssW0rd
 
