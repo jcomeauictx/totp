@@ -9,6 +9,12 @@ import pyotp
 
 logging.basicConfig(level=logging.DEBUG if __debug__ else logging.INFO)
 
+# python2 compatibility
+try:
+    FileNotFoundError
+except NameError:
+    FileNotFoundError = OSError  # pylint: disable=redefined-builtin
+
 def totp(machine):
     '''
     return time-based code for given machine
@@ -36,7 +42,7 @@ def seedword(machine):
         if not seed:
             raise ValueError('Must have non-empty `account` string')
         return seed
-    except (OSError, FileNotFoundError, IndexError, ValueError) as problem:
+    except (FileNotFoundError, IndexError, ValueError) as problem:
         logging.error('Cannot find seedword for "%s": %s', machine, problem)
         sys.exit(1)
 
