@@ -4,7 +4,7 @@ code adapted from https://pypi.org/project/pyotp/2.0.1/
 
 under "Time based OTPs"
 '''
-import sys, os, netrc, logging  # pylint: disable=multiple-imports
+import sys, netrc, logging  # pylint: disable=multiple-imports
 import pyotp
 
 logging.basicConfig(level=logging.DEBUG if __debug__ else logging.INFO)
@@ -15,7 +15,7 @@ def totp(machine):
     '''
     seed = seedword(machine)
     return pyotp.TOTP(seed).now()
-    
+
 def seedword(machine):
     '''
     find seedword stored in .netrc for machine
@@ -31,7 +31,7 @@ def seedword(machine):
     '''
     seed = None
     try:
-        seed = netrc.netrc().authenticators(machine)[1]
+        machine, seed, _ = netrc.netrc().authenticators(machine)
         logging.debug('found seed "%s"', seed)
         if not seed:
             raise ValueError('Must have non-empty `account` string')
